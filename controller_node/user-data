@@ -1,0 +1,5 @@
+#cloud-config
+password: qwerty
+chpasswd: { expire: False }
+ssh_authorized_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDW+S6wgCCXPn3NM6cYn/HNQV33LZ0j7AVJd4SqAcRmkWUpct2TiuO/x/G6uWExIz8DPyH5bg21RILCGcBsJ9aXUB+VYTjK6fugGhT6cD0msEIDo7a/aC1aOqaqXsQpx2VPGuFeVi8zmqatPzWaAawxOEqZqPErOxFSkE8E9GlBge/N6FCam5Sd5MfWnhiAkGK68aYVuIQ98t6sx2+I2qAqPptw//3ujZ3AVSAFlIUV4gYTROk9++KcGXrYduKyzgqxFY5xPxixqeRNfQjmILGQdf2IJJOdSi0V6/VNvubZ7/snwy8px9thaLxtqryytAX8I6jrL9AO1keN+fpY1Wkh sofya@sofya-K53E

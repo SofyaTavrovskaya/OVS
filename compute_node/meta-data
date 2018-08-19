@@ -1,0 +1,13 @@
+instance-id: bca73069-81e0-4419-acec-6beaa5ae74df
+hostname: compute_node
+local-hostname: compute_node
+network-interfaces: |
+  auto enp0s3
+  iface enp0s3 inet dhcp
+  
+  auto enp0s4
+  iface enp0s4 inet static
+  address 192.168.124.10
+  network 192.168.124.0
+  netmask 255.255.255.0
+  broadcast 192.168.124.255

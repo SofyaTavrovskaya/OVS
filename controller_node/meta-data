@@ -1,0 +1,6 @@
+instance-id: 78a3c85f-f19f-40a1-a072-565a9e5b846c
+hostname: controller_node
+local-hostname: controller_node
+network-interfaces: |
+  auto enp0s3
+  iface enp0s3 inet dhcp

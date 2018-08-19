@@ -1,0 +1,88 @@
+# Take Ubuntu Server 16.04 LTS cloud image
+# https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img
+#
+# Must be root to run commands
+# must have at least 1.5 GB RAM on VM to launch 2x512MB RAM VMs
+
+# validate either you can use KVM
+# install kvm-ok
+apt-get update
+apt-get install cpu-checker -y
+
+# Check KVM capabilities:
+kvm-ok
+
+# Example output should be
+# INFO: /dev/kvm exists
+# KVM acceleration can be used
+
+# Install Libvirt, QEMU and some additional tools
+apt-get install libvirt-bin qemu-kvm libvirt-bin virtinst bridge-utils genisoimage -y
+
+# Verify that you can connect to qemu
+virsh list
+virsh net-list
+
+#####################################################################################################################################
+# Create networks from XML templates
+virsh net-define my-net-nat.xml
+virsh net-define my-net-internal.xml
+
+# Check that network were defined successfully:
+virsh net-list --all
+
+# Start networks
+virsh net-start my-net-nat
+virsh net-start my-net-internal
+
+
+# Check host interfaces
+ip a
+brctl show
+
+#####################################################################################################################################
+# Prepare and run VMs
+
+# Download Ubuntu cloud image
+wget -O /var/lib/libvirt/images/ubunut-server-16.04.qcow2 https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img
+
+# Create two disks from image
+cp /var/lib/libvirt/images/ubunut-server-16.04.qcow2 /var/lib/libvirt/images/vm1.qcow2
+cp /var/lib/libvirt/images/ubunut-server-16.04.qcow2 /var/lib/libvirt/images/vm2.qcow2
+
+# create config drives from example folders
+# Generate SSH keypair
+ssh-keygen
+# replace public SSH key in user-data files
+# or use id_rsa from folder, f.e. ssh -i /path/to/id_rsa ubuntu@vm-ip
+mkisofs -o "/var/lib/libvirt/images/config-vm1.iso" -V cidata -r -J --quiet /path/to/config-vm1
+mkisofs -o "/var/lib/libvirt/images/config-vm2.iso" -V cidata -r -J --quiet /path/to/config-vm2
+
+# Define VMs from XML templates
+virsh define vm1.xml
+virsh define vm2.xml
+
+# Start VMs
+virsh start vm1
+virsh start vm2
+
+#####################################################################################################################################
+# Access VMs
+# use Ctrl+] to detach from console
+# use ubuntu:qwerty credentials to login to VM
+virsh console vm1
+
+# Or you can access VMs via ssh, f.e. vm1
+ssh ubuntu@192.168.123.101
+
+# Or if you didn't change public SSH key
+ssh -i /path/to/id_rsa ubuntu@192.168.123.101
+
+#####################################################################################################################################
+# Check how now your network config looks like
+ip a
+brctl show
+
+
+
+

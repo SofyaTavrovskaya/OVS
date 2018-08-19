@@ -1,0 +1,13 @@
+instance-id: 78a3c85f-f19f-40a1-a072-565a9e5b846c
+hostname: neutron_node
+local-hostname: neutron_node
+network-interfaces: |
+  auto enp0s3
+  iface enp0s3 inet dhcp
+  
+  auto enp0s4
+  iface enp0s4 inet static
+  address 192.168.124.11
+  network 192.168.124.0
+  netmask 255.255.255.0
+  broadcast 192.168.124.255
